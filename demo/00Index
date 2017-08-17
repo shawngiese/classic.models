@@ -1,0 +1,3 @@
+plotdata                                Merge and aggregate data to use in a bar plot
+download_dataset                        Use Information Hub REST API to download a dataset
+upload_file                             Use Information Hub REST API to upload a file

@@ -1,0 +1,74 @@
+---
+title: "Introduction to classic models"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Introduction to classic models}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+This package introduces includes datasets from the Classic Models database for the Analytics Designer from OpenText. The goal of this package is to provide a dataset for learning to integrate R scripts with the BIRT report design. These design files are used by the OpenText Information Hub (iHub) server. 
+
+This package is a work in progress which hopes to include:
+
+- More R examples
+- Examples of grabbing tables of data from the iHub 
+- Examples of sending data to the iHub
+
+## Using the data
+
+The data here is for testing purposes only. Some commands you might want to try to see a data frame include the following:
+- summary(ORDERS)
+- head(ORDERS)
+
+You can convert this data into R formats to use with other R packages. For example strings containing dates can be converted to R date objects, repeated values can be made into factors. For example, dates in these data sets were converted to a date type with the following commands:
+
+```{r, eval=FALSE}
+ORDERS$ORDERDATE <- as.Date(ORDERS$ORDERDATE, format= "%Y-%m-%d")
+ORDERS$REQUIREDDATE <- as.Date(ORDERS$REQUIREDDATE, format= "%Y-%m-%d")
+ORDERS$SHIPPEDDATE <- as.Date(ORDERS$SHIPPEDDATE, format= "%Y-%m-%d")
+PAYMENTS$PAYMENTDATE <- as.Date(PAYMENTS$PAYMENTDATE, format= "%Y-%m-%d")
+```
+
+You can merge data from different data frames using merge(). For example, the following command will make a new data set called 'data' by combining the two data sets ORDERDETAILS and ORDERS. The merge uses the column ORDERNUMBER to find matching rows.:
+```{r, eval=FALSE}
+data <- merge(ORDERDETAILS, ORDERS, "ORDERNUMBER")
+```
+Once you have your new data set you can apply other R commands such as plot:
+```{r, eval=FALSE}
+plot(data$ORDERDATE, data$PRICEEACH)
+```
+
+Example of plotting an aggregate of a data frame, after merging ORDERDETAILS and ORDERS.
+```{r, eval=FALSE}
+shipping = aggregate(PRICEEACH*QUANTITYORDERED ~ STATUS, data, sum)
+colnames(shipping) <- c("Status", "Value")
+# options(scipen=999)
+myplot = barplot(shipping$Value, names.arg=shipping$Status, ylim = c( 0 , 10000000 ), xlab="Status", yaxt="n")
+my.axis <- paste("$",prettyNum(axTicks(2)/1000, big.mark = ","),"K",sep=" ")
+axis(2,at=axTicks(2), labels=my.axis, las=1)
+my.bars <-paste("$",prettyNum(round(shipping$Value/1000), big.mark = ","),"K",sep=" ")
+text(myplot, shipping$Value, labels=my.bars, pos=3, offset=.1)
+```
+For more advanced data manipulation consider R packages such as [dplyr](https://cran.r-project.org/web/packages/dplyr/) and [tidyr](https://cran.r-project.org/web/packages/tidyr/).
+
+To access other data sets available in your R instance type data() in your R console. 
+plo
+## Using Rserve
+
+Install the [Rserve](https://cran.r-project.org/web/packages/Rserve/) package to enable Analytic Designer and iHub to communicate with your installation of R. Enable the Rserve debug mode when testing connectivity with R. Optionally add print statement in your R code to send information to your R console.
+
+Use the Rserve configuration file to load R code and packages each time you run Rserve (like preloading libraries and functions) . For more information about the configuration options available with Rserve see http://rforge.net/Rserve/doc.html.
+
+## Using Apache Spark
+
+If your R console is running on the same machine where Spark is installed, you can use the SparkR library to connect to Spark and its libraries. If your R console is on a different computer you can try the Sparklyr packayge and Livy. These packages enable you to aggregate data on the Spark server and only retrieve the results.
+
+## Loading other data into R
+
+There are many ways to get the data you want into R. You can import data files such as CSV and Excel spreadsheets into R. There are many packages such as the [RODBC](https://cran.r-project.org/web/packages/RODBC/), [RMySQL](https://cran.r-project.org/web/packages/RMySQL/), [ROracle](https://cran.r-project.org/web/packages/ROracle/), and [RJDBC](https://cran.r-project.org/web/packages/RJDBC/) to help with database connections.
+
+To fetch data from internet sources see the documentation for packages such as curl and [jsonlite](https://cran.r-project.org/web/packages/jsonlite/). For web scraping, consider [rvest](https://cran.r-project.org/web/packages/rvest/).
+
+

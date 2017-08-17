@@ -1,0 +1,15 @@
+Don't forget devtools::build_vignettes() 
+
+Converting date strings to date objects
+data("ORDERS")
+ORDERS$ORDERDATE <- as.Date(ORDERS$ORDERDATE, format= "%Y-%m-%d")
+ORDERS$REQUIREDDATE <- as.Date(ORDERS$REQUIREDDATE, format= "%Y-%m-%d")
+ORDERS$SHIPPEDDATE <- as.Date(ORDERS$SHIPPEDDATE, format= "%Y-%m-%d")
+save(ORDERS, file="data/ORDERS.rda")
+
+Other stuff todo:
+* show version along with data file name
+* change ; to : in first connection info question
+* add some simple features to check connectivity to server
+* add file check for configuration settings
+* add markdown vignettes

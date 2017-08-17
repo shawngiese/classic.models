@@ -1,0 +1,19 @@
+Package: classic.models
+Title: Classic Models from OpenText Analytics Designer
+Version: 0.1.0
+Authors@R: person("Shawn", "Giese", email = "sgiese@opentext.com", role = c("aut", "cre"))
+Description: These sample data sets are used for learning to use BIRT and R together.
+Depends: R (>= 3.3.0)
+NeedsCompilation: no
+Imports: utils,
+    curl,
+    jsonlite,
+    httr,
+    ggplot2
+Suggests: dplyr,
+    knitr,
+    rmarkdown
+License: EPL
+Encoding: UTF-8
+RoxygenNote: 6.0.1
+VignetteBuilder: knitr

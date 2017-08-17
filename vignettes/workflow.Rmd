@@ -1,0 +1,54 @@
+---
+title: "Building models"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Building models}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+Although you can quickly use your data in R to get a statistical report or produce a visualization, you might want to benefit from features available in R packages. Many R packages enable building supervised, unsupervised and reinforcement learning models. Once these models are built they can be deployed for use in reports, web interfaces or through API queries.
+
+## About workflow
+After you load your data into R a typical workflow for building a data model includes the following steps:
+
+1. Load
+2. Explore
+3. Clean
+4. Model
+5. Validate
+6. Deploy
+7. Update
+
+The methods you use to achieve these steps depends on your goals and resources. 
+
+**Load**\s\s
+Choosing the data loading process depends where your data is located. If your data is in CSV files you can load it with read.csv(), if it is in a report design you can use BIRT-R, if your data is in a Spark cluster you can use the R package [SparkR](https://cran.r-project.org/web/packages/SparkR/) to access content on the Hadoop File System.
+
+**Explore**\s\s
+Explore your data   One common R function is head() to see the top rows in your data, str() to display the data frame structure, and cor() and the R package corrplot to check for correlations. You can use this step to help identify columns that are relevant or if more data should be added.
+
+**Clean**\s\s
+After exploring your available data, you might need to clean it up in preparation for training a model. Some common tasks include removing or replacing null values, creating factors from strings, and normalizing data values. Use functions like is.na() or specialized R packages such as [Amelia](https://cran.r-project.org/web/packages/Amelia/). You can use R packages such as [dplyr](https://cran.r-project.org/web/packages/dplyr/) to organize  data frames to use only the data you need. Depending on your model, you also may need to separate the data into a training and test set, such as with the R package [caTools](https://cran.r-project.org/web/packages/caTools/). Splitting data into a training and testing set enables you to later verify how well your model works. 
+
+**Model**\s\s
+When your data is ready, you can apply different machine learning models to find the one that best fits your data. R libraries exist to build models such as regression, nearest neighbor, random forests, clustering, neural nets and more. 
+
+**Validate**\s\s
+Validating your model is an important step to find the model that best meets your goals. Maybe the best K nearest model is still not accurate enough with your data and so you try linear regressions. 
+
+**Deploy**\s\s
+After selecting the best model for your needs, you can deploy it for use by others. Some of the possible deployment options include:
+
+- Use the Rserve library to enable remote access to your R objects
+- Export the model as an RData (rda) file for use in another R instance
+- Export the model as a Predictive Model Markup Language [pmml](https://cran.r-project.org/web/packages/pmml/) file for use in a OMML compliant application
+- Save the steps to build the model in an Rscript file to reapply when needed
+
+**Update**\s\s
+As a model is used, you may need to update it. For example, new data allows additional features, or new obeservations are available from another year of data collection. 
+
+
+
+
