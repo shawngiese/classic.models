@@ -34,6 +34,19 @@ When you are ready to remove it, use the following command:
 remove.packages("classic.models")
 ```
 
+You can also install it directly from GitHub.
+```
+install.packages("devtools")
+library("devtools")
+install_github("shawngiese/classic.models")
+```
+
+If you receive any errors about loading the curl package, install that package manually. Then restart the installation of classic.models.
+```
+install.packages("curl")
+```
+
+
 ### Notes
 Building the package used some of the following resources:
 
